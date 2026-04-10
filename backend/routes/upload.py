@@ -12,21 +12,21 @@ from services.auth import require_auth
 
 upload_bp = Blueprint('upload', __name__)
 
-DOCS_FILE = os.path.join(os.path.dirname(__file__), '..', 'data', 'documents.json')
+from database import get_db
 
+def _get_coll():
+    return get_db()['documents']
 
 def _load_docs():
-    os.makedirs(os.path.dirname(DOCS_FILE), exist_ok=True)
-    if os.path.exists(DOCS_FILE):
-        with open(DOCS_FILE, 'r') as f:
-            return json.load(f)
-    return []
+    # Helper to return list without _id
+    docs = list(_get_coll().find())
+    for d in docs:
+        if '_id' in d:
+            del d['_id']
+    return docs
 
-
-def _save_docs(docs):
-    os.makedirs(os.path.dirname(DOCS_FILE), exist_ok=True)
-    with open(DOCS_FILE, 'w') as f:
-        json.dump(docs, f, indent=2)
+def _insert_doc(doc_meta):
+    _get_coll().insert_one(doc_meta.copy())
 
 
 @upload_bp.route('/upload', methods=['POST'])
@@ -92,9 +92,7 @@ def upload_file():
             "metadata": parsed.get("metadata", {})
         }
 
-        docs = _load_docs()
-        docs.append(doc_meta)
-        _save_docs(docs)
+        _insert_doc(doc_meta)
 
         return jsonify({
             "message": f"File '{file.filename}' processed successfully",
@@ -125,8 +123,5 @@ def get_documents():
 def delete_document(doc_id):
     """Delete a document owned by the authenticated user."""
     user_id = g.current_user['id']
-    docs = _load_docs()
-    # Only delete if owned by requesting user
-    filtered = [d for d in docs if not (d["id"] == doc_id and d.get("user_id") == user_id)]
-    _save_docs(filtered)
+    _get_coll().delete_one({"id": doc_id, "user_id": user_id})
     return jsonify({"message": "Document deleted", "id": doc_id})

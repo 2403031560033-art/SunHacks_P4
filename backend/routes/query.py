@@ -78,13 +78,9 @@ def get_stats():
         graph = GraphStore(user_id=user_id)
         nodes = graph.get_all_nodes()
 
-        # Load user's documents
-        docs_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'documents.json')
-        docs = []
-        if os.path.exists(docs_file):
-            with open(docs_file, 'r') as f:
-                all_docs = json.load(f)
-            docs = [d for d in all_docs if d.get('user_id') == user_id]
+        from database import get_db
+        docs_cursor = get_db()['documents'].find({"user_id": user_id})
+        docs = list(docs_cursor)
 
         decision_count = sum(1 for n in nodes if n["type"] == "decision")
         person_count = sum(1 for n in nodes if n["type"] == "person")
