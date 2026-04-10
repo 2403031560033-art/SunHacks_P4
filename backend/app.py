@@ -1,6 +1,15 @@
+import os
+import sys
+
+# Patch for Render/Ubuntu outdated SQLite version causing ChromaDB failure
+try:
+    __import__('pysqlite3')
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+except ImportError:
+    pass
+
 from flask import Flask
 from flask_cors import CORS
-import os
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
