@@ -38,10 +38,15 @@ def register():
         return jsonify({'error': 'An account with that email already exists'}), 409
 
     # Hash and store
-    hashed = hash_password(password)
-    user, err = create_user(name, email, hashed)
-    if err:
-        return jsonify({'error': err}), 409
+    try:
+        hashed = hash_password(password)
+        user, err = create_user(name, email, hashed)
+        if err:
+            return jsonify({'error': err}), 409
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': f"Database Connection Error: {str(e)}"}), 500
 
     token = generate_token(user['id'])
     return jsonify({
