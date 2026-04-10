@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   FileText, ClipboardList, Users, Layers, GitFork,
-  ArrowRight, Upload, MessageSquare, Sparkles, Zap, AlertTriangle
+  ArrowRight, Upload, MessageSquare, Sparkles, Zap, AlertTriangle, Search, X
 } from 'lucide-react';
 import StatsCard from '../components/StatsCard';
 import FileUpload from '../components/FileUpload';
-import { getStats, getDecisions } from '../services/api';
+import { getStats, getDecisions, scanContradictions } from '../services/api';
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
@@ -15,6 +15,11 @@ export default function Dashboard() {
   });
   const [recentDecisions, setRecentDecisions] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // Contradiction Scanner State
+  const [scanning, setScanning] = useState(false);
+  const [contradictions, setContradictions] = useState(null);
+  
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -29,6 +34,19 @@ export default function Dashboard() {
       console.error('Dashboard fetch error:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleScan = async () => {
+    setScanning(true);
+    try {
+      const res = await scanContradictions();
+      setContradictions(res.contradictions || []);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to scan for contradictions.");
+    } finally {
+      setScanning(false);
     }
   };
 
@@ -98,6 +116,18 @@ export default function Dashboard() {
                   <ArrowRight className="w-3 h-3 text-gray-600 ml-auto group-hover:text-gray-400 group-hover:translate-x-1 transition-all" />
                 </button>
               ))}
+              
+              <button
+                onClick={handleScan}
+                disabled={scanning}
+                className="w-full flex items-center gap-3 px-4 py-3 mt-2 rounded-xl bg-red-500/10 border border-red-500/20 hover:border-red-500/40 hover:bg-red-500/20 transition-all group"
+              >
+                <Search className={`w-4 h-4 text-red-400 ${scanning ? 'animate-spin' : ''}`} />
+                <span className="text-sm font-semibold text-red-200 group-hover:text-white transition-colors">
+                  {scanning ? 'Scanning Brain...' : 'Run AI Contradiction Scan'}
+                </span>
+                {!scanning && <ArrowRight className="w-3 h-3 text-red-400 ml-auto group-hover:translate-x-1 transition-all" />}
+              </button>
             </div>
           </div>
 
@@ -183,6 +213,52 @@ export default function Dashboard() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Contradiction Modal Wrapper */}
+      {contradictions !== null && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50 p-4">
+          <div className="bg-dark-800 border-2 border-red-500/30 rounded-2xl p-6 w-full max-w-2xl shadow-2xl shadow-red-500/10">
+            <div className="flex items-start justify-between mb-6">
+              <div className="flex items-center gap-3 text-red-400">
+                <div className="p-2 bg-red-500/10 rounded-lg"><AlertTriangle className="w-6 h-6" /></div>
+                <div>
+                  <h2 className="text-lg font-bold">AI Contradiction Report</h2>
+                  <p className="text-xs text-red-400/80">Found {contradictions.length} potential hypocrisy risks.</p>
+                </div>
+              </div>
+              <button onClick={() => setContradictions(null)} className="text-gray-400 hover:text-white p-1"><X className="w-5 h-5"/></button>
+            </div>
+            
+            <div className="max-h-[60vh] overflow-y-auto space-y-4 pr-2">
+              {contradictions.length === 0 ? (
+                <div className="p-8 text-center bg-green-500/10 border border-green-500/20 rounded-xl">
+                  <Sparkles className="w-8 h-8 text-green-400 mx-auto mb-3" />
+                  <p className="text-sm text-green-200 font-medium">Memory is perfectly aligned.</p>
+                  <p className="text-xs text-green-400/70 mt-1">No major contradictions detected across all documents.</p>
+                </div>
+              ) : (
+                contradictions.map((c, i) => (
+                  <div key={i} className="p-4 bg-dark-700/50 border border-white/5 rounded-xl">
+                    <p className="text-xs uppercase tracking-wider font-bold text-red-500 mb-3">
+                      Conflict Topic: <span className="text-white">{c.conflict_topic}</span>
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="p-3 bg-red-500/5 border border-red-500/10 rounded-lg">
+                        <span className="text-[10px] text-gray-500 block mb-1">DECISION A ({c.decision_a.source})</span>
+                        <p className="text-sm font-medium text-gray-200">{c.decision_a.text}</p>
+                      </div>
+                      <div className="p-3 bg-red-500/5 border border-red-500/10 rounded-lg">
+                        <span className="text-[10px] text-gray-500 block mb-1">DECISION B ({c.decision_b.source})</span>
+                        <p className="text-sm font-medium text-gray-200">{c.decision_b.text}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
       )}

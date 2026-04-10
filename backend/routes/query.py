@@ -130,3 +130,65 @@ def get_stats():
             "topics": 0, "chunks": 0, "graph_nodes": 0, "graph_edges": 0,
             "error": str(e)
         })
+
+@query_bp.route('/scan-contradictions', methods=['GET'])
+@require_auth
+def scan_contradictions():
+    """AI Hypocrisy Detector: Scans the graph for contradictory decisions."""
+    user_id = g.current_user['id']
+    try:
+        graph = GraphStore(user_id=user_id)
+        nodes = graph.get_all_nodes()
+        decisions = [n.get("data", {}) for n in nodes if n["type"] == "decision" and n.get("data")]
+
+        contradictions = []
+        
+        # O(N^2) comparison of decisions for contradictions
+        for i, d1 in enumerate(decisions):
+            d1_id = d1.get("id")
+            d1_text = d1.get("decision", "").lower()
+            if not d1_text: continue
+
+            for j, d2 in enumerate(decisions):
+                if i == j or not d2.get("decision"): continue
+                
+                # Check 1: If Decision B's rejected alternatives include Decision A
+                d2_alternatives = [alt.lower() for alt in d2.get("alternatives", [])]
+                
+                for alt in d2_alternatives:
+                    # Very simple intersection check: if A's decision is highly similar to B's rejected alternative
+                    # Using a basic keyword overlap heuristic
+                    d1_words = set([w for w in d1_text.split() if len(w) > 3])
+                    alt_words = set([w for w in alt.split() if len(w) > 3])
+                    
+                    if len(d1_words) > 0 and len(alt_words) > 0:
+                        overlap = len(d1_words.intersection(alt_words))
+                        # If significant overlap
+                        if overlap >= min(len(d1_words), len(alt_words), 2):
+                            # Ensure we don't duplicate
+                            conflict_id = tuple(sorted([str(d1_id), str(d2.get("id"))]))
+                            
+                            # Filter pre-existing to avoid A->B and B->A dupes
+                            if not any(c.get("_conflict_id") == conflict_id for c in contradictions):
+                                contradictions.append({
+                                    "_conflict_id": conflict_id,
+                                    "conflict_topic": alt.title(),
+                                    "decision_a": {
+                                        "text": d1.get("decision"),
+                                        "source": d1.get("source_document", "Unknown")
+                                    },
+                                    "decision_b": {
+                                        "text": d2.get("decision"),
+                                        "source": d2.get("source_document", "Unknown")
+                                    }
+                                })
+
+        # Strip internal ids before sending
+        for c in contradictions:
+            c.pop("_conflict_id", None)
+
+        return jsonify({"contradictions": contradictions})
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e), "contradictions": []}), 500
