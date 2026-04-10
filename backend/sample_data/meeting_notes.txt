@@ -1,0 +1,65 @@
+MEETING NOTES - Q1 Technology Review
+Date: 2024-03-05
+Attendees: CEO James Wright, CTO Maria Santos, VP Engineering Robert Chen, Product Lead Amy Liu
+
+============================================================
+
+AGENDA ITEM 1: Frontend Framework Decision
+
+The team has decided to migrate from Angular to React for our customer-facing applications.
+
+Reasoning:
+- Because React's component model is more flexible for our planned micro-frontend architecture
+- Larger talent pool makes hiring easier - based on analysis of 200+ job postings, React developers are 3x more available
+- Better performance with React 18's concurrent rendering features for our data-heavy dashboards
+- Extensive ecosystem of UI libraries including Material UI, Chakra UI, and Radix primitives
+- Because React has a more gradual learning curve, reducing onboarding time for new team members from 4 weeks to 2 weeks
+
+This was chosen instead of Vue.js which has a smaller enterprise community, and instead of staying with Angular where developer satisfaction scores were low at 3.2/5.
+
+Alternatives that were evaluated:
+- Vue.js: Good developer experience but smaller ecosystem and fewer enterprise reference customers
+- Svelte: Too new for enterprise use, concerns about long-term viability and limited hiring pool
+- Staying with Angular: Team morale issues due to verbose syntax, slower development velocity measured at 30% fewer features shipped per sprint
+
+Timeline: Migration starts Q2, expected completion by end of Q3.
+
+============================================================
+
+AGENDA ITEM 2: API Gateway Selection
+
+We approved Kong as our API gateway solution, moving forward with their enterprise tier.
+
+Key reasons for this decision:
+- Superior plugin ecosystem with 100+ plugins for rate limiting, authentication, and observability
+- Better performance benchmarks showing 30% lower latency compared to alternatives at 10K+ requests per second
+- Strong Kubernetes integration through Kong Ingress Controller, which fits our infrastructure strategy
+- Because it offers native gRPC support which we need for our microservices communication layer
+- Open-source core reduces risk of vendor lock-in
+
+This was selected over AWS API Gateway due to vendor lock-in concerns and limited customizability, and over Apigee which has a higher cost at $120K/year vs $80K/year for Kong Enterprise.
+
+Budget approved: $80K/year for Kong Enterprise license.
+
+============================================================
+
+AGENDA ITEM 3: Observability Stack
+
+The team agreed to adopt Grafana + Prometheus + Loki as our observability stack, replacing our current fragmented tooling (Datadog for metrics, ELK for logs, Jaeger for traces).
+
+Reasoning:
+- Because the unified stack reduces context-switching between tools during incident response
+- Cost reduction from $180K/year (Datadog) to approximately $45K/year (self-hosted Grafana stack)
+- Better correlation between metrics, logs, and traces in a single pane of glass
+- Open-source foundation means no vendor lock-in and ability to customize dashboards
+
+This was chosen instead of keeping Datadog due to escalating costs with data volume growth, and over New Relic which had similar pricing concerns.
+
+============================================================
+
+ACTION ITEMS:
+1. Robert to prepare detailed React migration timeline by March 15
+2. Maria to approve budget reallocation of $200K for migration efforts
+3. Amy to update product roadmap with migration milestones
+4. DevOps team to set up Kong staging environment by March 20
+5. SRE team to begin Grafana POC by March 10

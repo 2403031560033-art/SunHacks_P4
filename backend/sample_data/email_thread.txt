@@ -1,0 +1,34 @@
+From: jennifer.martinez@company.com
+To: engineering-leads@company.com
+Subject: RE: Database Migration Strategy - Final Decision
+Date: 2024-02-20
+
+Team,
+
+After extensive evaluation over the past two weeks, we have decided to migrate from MongoDB to PostgreSQL for our primary data store. Here is the complete reasoning behind this decision:
+
+1. Our data has become increasingly relational as the product matured, with complex joins needed across 12+ collections
+2. PostgreSQL offers better ACID compliance for our financial transactions - this is critical for SOC2 compliance
+3. The JSONB support in PostgreSQL gives us the flexibility we need for semi-structured data without sacrificing query performance
+4. Cost savings of approximately 40% on hosting - managed PostgreSQL at $8K/month vs MongoDB Atlas at $13.5K/month
+
+Alternatives considered:
+- Staying with MongoDB: Rejected because of increasing complexity in managing cross-collection relationships and rising costs
+- Moving to MySQL: Rejected due to inferior JSON handling and fewer advanced features like CTEs and window functions  
+- CockroachDB: Interesting option with great horizontal scaling, but team lacks expertise and community support is still growing
+- Amazon DynamoDB: Rejected because it would increase vendor lock-in and doesn't support complex queries well
+
+The migration will happen in 3 phases:
+Phase 1: Set up PostgreSQL alongside MongoDB with schema design (2 weeks)
+Phase 2: Dual-write to both databases with data validation (4 weeks)
+Phase 3: Cut over to PostgreSQL and decommission MongoDB (2 weeks)
+
+Key participants in this decision: Jennifer Martinez (Engineering Lead), Tom Wilson (DBA), Rachel Green (Product Manager), and Alex Kumar (Senior Backend Engineer).
+
+The confidence in this decision is high because we ran a 2-week proof of concept that validated all our assumptions about performance and data compatibility. Query performance improved by 3x on average.
+
+Risk mitigation: We will maintain MongoDB backups for 90 days post-migration and have a documented rollback procedure.
+
+Best regards,
+Jennifer Martinez
+Engineering Lead
