@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   FileText, ClipboardList, Users, Layers, GitFork,
-  ArrowRight, Upload, MessageSquare, Sparkles, Zap
+  ArrowRight, Upload, MessageSquare, Sparkles, Zap, AlertTriangle
 } from 'lucide-react';
 import StatsCard from '../components/StatsCard';
 import FileUpload from '../components/FileUpload';
@@ -11,7 +11,7 @@ import { getStats, getDecisions } from '../services/api';
 export default function Dashboard() {
   const [stats, setStats] = useState({
     documents: 0, decisions: 0, participants: 0,
-    topics: 0, chunks: 0, graph_nodes: 0, graph_edges: 0
+    topics: 0, chunks: 0, graph_nodes: 0, graph_edges: 0, blind_spots: []
   });
   const [recentDecisions, setRecentDecisions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -121,6 +121,35 @@ export default function Dashboard() {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Blind Spot Risk Analysis Widget */}
+          <div className="glass-card p-5 border border-accent-amber/20 bg-accent-amber/5">
+            <h3 className="text-sm font-semibold text-accent-amber mb-3 flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4" />
+              Decision Blind Spots
+            </h3>
+            {stats.blind_spots && stats.blind_spots.length > 0 ? (
+              <div className="space-y-3">
+                <p className="text-xs text-gray-400 mb-2">
+                  <span className="text-white font-medium">{stats.blind_spots.length} decisions</span> flagged for high risk:
+                </p>
+                {stats.blind_spots.slice(0, 3).map((bs, i) => (
+                  <div key={i} className="p-3 rounded-lg bg-dark-700/80 border border-accent-amber/20">
+                    <p className="text-xs font-medium text-gray-200 line-clamp-2">{bs.decision}</p>
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {bs.risk_factors.map((rf, idx) => (
+                         <span key={idx} className="px-1.5 py-0.5 rounded bg-accent-amber/10 text-accent-amber text-[10px] font-medium border border-accent-amber/20">
+                           ⚠️ {rf}
+                         </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+               <p className="text-xs text-gray-400 italic">No blind spots detected in recent decisions. Great documentation!</p>
+            )}
           </div>
         </div>
       </div>

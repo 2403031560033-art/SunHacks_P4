@@ -96,6 +96,24 @@ def get_stats():
         except Exception:
             chunk_count = 0
 
+        # Blind Spot Detector Logic
+        blind_spots = []
+        for n in nodes:
+            if n["type"] == "decision":
+                d = n.get("data", {})
+                risk_factors = []
+                if not d.get("alternatives"):
+                    risk_factors.append("No alternatives recorded")
+                if not d.get("participants") or len(d.get("participants", [])) < 2:
+                    risk_factors.append("Siloed decision (< 2 participants)")
+                
+                if risk_factors:
+                    blind_spots.append({
+                        "decision": d.get("decision", "Unknown Decision"),
+                        "risk_factors": risk_factors,
+                        "source": d.get("source_document", "Unknown")
+                    })
+
         return jsonify({
             "documents": len(docs),
             "decisions": decision_count,
@@ -103,7 +121,8 @@ def get_stats():
             "topics": topic_count,
             "chunks": chunk_count,
             "graph_nodes": len(nodes),
-            "graph_edges": len(graph.get_all_edges())
+            "graph_edges": len(graph.get_all_edges()),
+            "blind_spots": blind_spots
         })
     except Exception as e:
         return jsonify({
