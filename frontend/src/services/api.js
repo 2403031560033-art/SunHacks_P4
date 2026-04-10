@@ -98,4 +98,10 @@ export async function getStats() {
   return response.data;
 }
 
+// ── Contradictions ─────────────────────────────────────────────
+export async function scanContradictions() {
+  const response = await api.get('/scan-contradictions');
+  return response.data;
+}
+
 export default api;
