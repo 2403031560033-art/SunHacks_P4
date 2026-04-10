@@ -9,3 +9,5 @@ gunicorn==21.2.0
 pysqlite3-binary
 pymongo[srv]
 certifi
+python-dotenv
+google-generativeai

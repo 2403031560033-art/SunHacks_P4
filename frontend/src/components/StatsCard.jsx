@@ -30,12 +30,12 @@ export default function StatsCard({ icon: Icon, label, value, trend, color = 'pu
 
   return (
     <div
-      className={`glass-card p-5 bg-gradient-to-br ${c.bg} border ${c.border} group cursor-default`}
+      className={`glass-card p-6 bg-gradient-to-br ${c.bg} border ${c.border} group cursor-default interactive-element`}
     >
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs text-gray-500 font-medium uppercase tracking-wider mb-1">{label}</p>
-          <p className="text-2xl font-bold text-white">{value}</p>
+          <p className="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-1 shadow-sm">{label}</p>
+          <p className="text-3xl font-extrabold text-white tracking-tight">{value}</p>
           {trend && (
             <p className="text-[11px] text-accent-emerald mt-1 font-medium">{trend}</p>
           )}

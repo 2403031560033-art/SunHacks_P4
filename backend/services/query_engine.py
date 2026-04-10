@@ -1,5 +1,9 @@
 import re
-
+import os
+try:
+    import google.generativeai as genai
+except ImportError:
+    genai = None
 
 class QueryEngine:
     """Handles natural-language queries with semantic search and explainable answers."""
@@ -68,7 +72,7 @@ class QueryEngine:
             return [], [], []
 
     def _generate_answer(self, query, chunks, decisions):
-        """Generate a contextual answer from retrieved data."""
+        """Generate a contextual answer using Gemini LLM if available, otherwise use fallback."""
         if not chunks and not decisions:
             return (
                 "I don't have enough information in the organizational memory to answer "
@@ -76,52 +80,51 @@ class QueryEngine:
                 "meeting notes) to build the knowledge base, then try again."
             )
 
-        parts = []
+        # Build Rich Context
+        context_str = "KNOWLEDGE BASE CONTEXT:\n\n-- Formal Decisions --\n"
+        for d in decisions[:4]:
+            context_str += f"Decision: {d.get('decision', 'Unknown')}\n"
+            context_str += f"Reasoning: {', '.join(d.get('reasoning', []))}\n"
+            context_str += f"Alternatives Rejected: {', '.join(d.get('alternatives', []))}\n"
+            context_str += f"Participants: {', '.join(d.get('participants', []))}\n\n"
+            
+        context_str += "-- Raw Document Context --\n"
+        for c in chunks[:3]:
+            context_str += f"Excerpt: {c.strip()[:400]}...\n\n"
 
-        # If we found matching decisions, lead with them
+        api_key = os.environ.get("GEMINI_API_KEY")
+        if genai and api_key:
+            try:
+                genai.configure(api_key=api_key.strip())
+                model = genai.GenerativeModel('gemini-1.5-flash')
+                sys_prompt = (
+                    "You are the Chief Memory Officer of this Company. You possess perfect knowledge of past decisions and organizational memory. "
+                    "Talk to the user like a highly intelligent, professional company executive. "
+                    "Use ONLY the provided context to answer their question. "
+                    "Whenever you mention a decision, you MUST beautifully explain the reasoning, what alternatives were considered, and who was involved. "
+                    "Make it readable, well-formatted, and insightful."
+                )
+                prompt = f"{sys_prompt}\n\n{context_str}\n\nUser Question: {query}\n\nChief Memory Officer Answer:"
+                response = model.generate_content(prompt)
+                if response.text:
+                    return response.text
+            except Exception as e:
+                print(f"Gemini AI Generation Error: {e}")
+
+        # Fallback to rule-based string generation
+        parts = []
         if decisions:
             primary = decisions[0]
-            decision_text = primary.get('decision', '')
-
-            # Build a natural-sounding answer
-            parts.append(f"Based on the organizational records, **{decision_text}**.")
-
+            parts.append(f"Based on the records, **{primary.get('decision', '')}**.")
             if primary.get('reasoning'):
-                reasoning_summary = "; ".join(primary['reasoning'][:3])
-                parts.append(f"The key reasoning behind this decision: {reasoning_summary}.")
-
+                parts.append(f"The key reasoning: {'; '.join(primary['reasoning'][:3])}.")
             if primary.get('alternatives'):
-                alts = ", ".join(primary['alternatives'][:3])
-                parts.append(f"Alternatives that were considered include: {alts}.")
-
+                parts.append(f"Alternatives considered: {', '.join(primary['alternatives'][:3])}.")
             if primary.get('participants'):
-                people = ", ".join(primary['participants'][:4])
-                parts.append(f"Key participants in this decision: {people}.")
-
-            conf = primary.get('confidence_score', 0)
-            if conf > 0.7:
-                parts.append("This decision appears to have strong consensus and supporting evidence.")
-            elif conf > 0.4:
-                parts.append("This decision has moderate supporting evidence in the records.")
-
-        # If we only have chunks (no decisions), summarize from context
+                parts.append(f"Key participants: {', '.join(primary['participants'][:4])}.")
         elif chunks:
-            parts.append("Based on the available organizational documents, here is what I found:")
-            # Use the most relevant chunks
-            for chunk in chunks[:2]:
-                # Extract the most relevant sentence
-                sentences = re.split(r'(?<=[.!?])\s+', chunk)
-                query_words = set(query.lower().split())
-                best_sentence = max(
-                    sentences,
-                    key=lambda s: sum(1 for w in query_words if w in s.lower()),
-                    default=chunk[:200]
-                )
-                parts.append(f'> "{best_sentence.strip()[:200]}"')
-
-        # Add additional context if both exist
-        if decisions and chunks:
-            parts.append("\nAdditional context from the documents supports this decision.")
+            parts.append("Based on the documents, here is what I found:")
+            parts.append(f'> "{chunks[0][:200]}..."')
 
         return "\n\n".join(parts)
 
