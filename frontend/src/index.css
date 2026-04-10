@@ -1,24 +1,28 @@
 @import "tailwindcss";
 
-/* ── Tailwind v4 Custom Theme ── */
+/* ── Tailwind v4 Custom Theme: Enterprise Obsidian Glass ── */
 @theme {
-  --color-dark-900: #0a0a14;
-  --color-dark-800: #0f0f1a;
-  --color-dark-700: #1a1a2e;
-  --color-dark-600: #252540;
-  --color-dark-500: #2d2d4a;
-  --color-dark-400: #3d3d5c;
+  /* Obsidian darks */
+  --color-dark-900: #060609;
+  --color-dark-800: #0a0a0f;
+  --color-dark-700: #12121a;
+  --color-dark-600: #1a1b26;
+  --color-dark-500: #24283b;
+  --color-dark-400: #414868;
 
-  --color-accent-purple: #7c3aed;
-  --color-accent-purple-light: #8b5cf6;
-  --color-accent-purple-glow: #7c3aed40;
-  --color-accent-teal: #06b6d4;
-  --color-accent-teal-light: #22d3ee;
+  /* Sophisticated Accents */
+  --color-accent-purple: #4f46e5; /* Indigo */
+  --color-accent-purple-light: #6366f1;
+  --color-accent-purple-glow: rgba(99, 102, 241, 0.4);
+  --color-accent-teal: #0ea5e9; /* Sky */
+  --color-accent-teal-light: #38bdf8;
   --color-accent-emerald: #10b981;
   --color-accent-amber: #f59e0b;
   --color-accent-rose: #f43f5e;
 
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.15);
 }
 
 /* ── Base Styles ── */
@@ -32,14 +36,16 @@ html {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-dark-900);
 }
 
 body {
   margin: 0;
   padding: 0;
-  background: var(--color-dark-900);
+  background: radial-gradient(100% 100% at 50% 0%, rgba(99, 102, 241, 0.08) 0%, var(--color-dark-900) 100%);
   color: #e2e8f0;
-  line-height: 1.7;
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
 /* ── Scrollbar ── */
@@ -51,29 +57,43 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3d3d5c;
+  background: var(--color-dark-500);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #7c3aed;
+  background: var(--color-accent-purple-light);
 }
 
-/* ── Glass Card ── */
+/* ── Premium Glass Card ── */
 .glass-card {
-  background: linear-gradient(135deg, rgba(26, 26, 46, 0.8), rgba(15, 15, 26, 0.6));
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(20px);
+  background: linear-gradient(180deg, rgba(26, 27, 38, 0.6) 0%, rgba(18, 18, 26, 0.4) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  /* Top border light reflection */
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.02);
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s ease, border-color 0.4s ease;
 }
+
 .glass-card:hover {
-  border-color: rgba(124, 58, 237, 0.3);
-  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.08);
+  border-color: rgba(99, 102, 241, 0.15);
+  box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.6), 0 0 24px -4px rgba(99, 102, 241, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Custom interactive non-card elements */
+.interactive-element {
+  transition: all 0.3s var(--ease-spring);
+}
+.interactive-element:hover {
+  transform: scale(1.02);
 }
 
 /* ── Gradient Text ── */
 .gradient-text {
-  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -81,8 +101,8 @@ body {
 
 /* ── Pulse animation ── */
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.15); }
-  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.3); }
+  0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.15); }
+  50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.35); }
 }
 .pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
@@ -92,7 +112,7 @@ body {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -100,7 +120,7 @@ body {
   }
 }
 .fade-in-up {
-  animation: fadeInUp 0.5s ease-out forwards;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* ── Typing animation ── */
@@ -114,15 +134,17 @@ body {
 .typing-dot:nth-child(2) { animation-delay: 0.2s; }
 .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
-/* ── React Flow overrides ── */
+/* ── React Flow overrides (Premium) ── */
 .react-flow__node {
   border-radius: 12px !important;
   font-family: var(--font-sans) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
 }
 .react-flow__edge-path {
-  stroke: #7c3aed !important;
+  stroke: #6366f1 !important;
   stroke-width: 2 !important;
+  filter: drop-shadow(0 0 3px rgba(99, 102, 241, 0.4));
 }
 .react-flow__background pattern line {
-  stroke: #1a1a2e !important;
+  stroke: #1a1b26 !important;
 }

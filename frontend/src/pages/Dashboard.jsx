@@ -57,8 +57,8 @@ export default function Dashboard() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-sm text-gray-500 mt-1">Organizational Memory & Reasoning Engine Overview</p>
+          <h1 className="text-3xl font-extrabold text-white tracking-tight">Dashboard</h1>
+          <p className="text-sm text-gray-400 mt-1 font-medium">Organizational Memory & Reasoning Engine</p>
         </div>
         <button
           onClick={() => navigate('/ask')}
@@ -69,8 +69,8 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Bento Grid: Overview Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatsCard icon={FileText} label="Documents" value={stats.documents || 0} color="purple" trend={stats.documents > 0 ? 'Active' : null} />
         <StatsCard icon={ClipboardList} label="Decisions" value={stats.decisions || 0} color="teal" trend={stats.decisions > 0 ? `${stats.graph_edges || 0} relationships` : null} />
         <StatsCard icon={Users} label="Participants" value={stats.participants || 0} color="emerald" />
@@ -79,15 +79,15 @@ export default function Dashboard() {
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Upload Section */}
-        <div className="lg:col-span-2 glass-card p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-9 h-9 rounded-xl bg-accent-purple/15 flex items-center justify-center">
-              <Upload className="w-4 h-4 text-accent-purple-light" />
+        {/* Upload Section (Bento Large Block) */}
+        <div className="lg:col-span-2 glass-card p-8 interactive-element">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-purple/20 to-transparent flex items-center justify-center border border-accent-purple/10">
+              <Upload className="w-5 h-5 text-accent-purple-light" />
             </div>
             <div>
-              <h2 className="text-base font-semibold text-white">Ingest Data</h2>
-              <p className="text-xs text-gray-500">Upload Slack conversations, emails, or meeting notes</p>
+              <h2 className="text-lg font-bold text-white tracking-tight">Ingest Intelligence</h2>
+              <p className="text-xs text-gray-400 font-medium">Upload Slack JSONs, emails, or strategic meeting notes.</p>
             </div>
           </div>
           <FileUpload onUploadComplete={fetchData} />
