@@ -9,6 +9,7 @@ import DataSources from './pages/DataSources';
 import DecisionHistory from './pages/DecisionHistory';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import LandingPage from './pages/LandingPage';
 
 // ── Protected route wrapper ────────────────────────────────────
 function ProtectedRoute({ children }) {
@@ -34,7 +35,7 @@ function ProtectedRoute({ children }) {
 function PublicRoute({ children }) {
   const { isAuthenticated, loading } = useAuth();
   if (loading) return null;
-  return isAuthenticated ? <Navigate to="/" replace /> : children;
+  return isAuthenticated ? <Navigate to="/dashboard" replace /> : children;
 }
 
 // ── App shell for authenticated users ─────────────────────────
@@ -50,11 +51,12 @@ function AppShell() {
         <Topbar />
         <main className="flex-1 overflow-y-auto p-6">
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/ask" element={<AskAI />} />
             <Route path="/graph" element={<KnowledgeGraph />} />
             <Route path="/sources" element={<DataSources />} />
             <Route path="/decisions" element={<DecisionHistory />} />
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </main>
       </div>
@@ -69,6 +71,14 @@ function App() {
       <AuthProvider>
         <Routes>
           {/* Public auth routes */}
+          <Route
+            path="/"
+            element={
+              <PublicRoute>
+                <LandingPage />
+              </PublicRoute>
+            }
+          />
           <Route
             path="/login"
             element={

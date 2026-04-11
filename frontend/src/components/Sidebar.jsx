@@ -6,7 +6,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 
 const navItems = [
-  { path: '/', name: 'Dashboard', icon: LayoutDashboard },
+  { path: '/dashboard', name: 'Dashboard', icon: LayoutDashboard },
   { path: '/ask', name: 'Ask AI', icon: MessageSquare },
   { path: '/graph', name: 'Knowledge Graph', icon: GitFork },
   { path: '/sources', name: 'Data Sources', icon: Database },
@@ -53,7 +53,7 @@ export default function Sidebar() {
             <NavLink
               key={item.path}
               to={item.path}
-              end={item.path === '/'}
+              end={item.path === '/dashboard'}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 group ${
                   isActive
