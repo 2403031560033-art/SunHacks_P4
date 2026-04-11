@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 import ReactFlow, {
   Background,
   Controls,
+  Handle,
+  Position,
   useNodesState,
   useEdgesState,
 } from 'reactflow';
@@ -44,11 +46,18 @@ function CustomNode({ data }) {
         background: style.bg,
         borderColor: style.border,
         color: style.textColor,
+        boxShadow: `0 4px 20px -2px ${style.border}`,
       }}
-      className="px-4 py-2.5 rounded-xl border text-xs font-medium max-w-48 text-center shadow-lg"
+      className="px-4 py-3 rounded-2xl border backdrop-blur-md text-xs font-bold max-w-56 text-center transition-transform hover:scale-110"
     >
-      <span className="mr-1">{style.icon}</span>
-      {data.label}
+      <Handle type="target" position={Position.Top} className="w-2 h-2 !bg-white/50 !border-none" />
+      <div className="flex flex-col items-center gap-1.5">
+        <span className="text-xl bg-black/20 p-2 rounded-full leading-none shadow-inner border border-white/5">
+          {style.icon}
+        </span>
+        <span className="leading-snug tracking-wide">{data.label}</span>
+      </div>
+      <Handle type="source" position={Position.Bottom} className="w-2 h-2 !bg-white/50 !border-none" />
     </div>
   );
 }
@@ -69,71 +78,85 @@ export default function GraphVisualization({ graphData }) {
       nodesByType[node.type].push(node);
     });
 
+    // Organic Radial Clustering Algorithm
     const flowNodes = [];
-    let yOffset = 0;
+    const radiusBase = 180;
+    
+    // 1. Map connections to cluster things around decisions
+    const childrenMap = {};
+    if (graphData.edges) {
+      graphData.edges.forEach(e => {
+        if (!childrenMap[e.source]) childrenMap[e.source] = [];
+        childrenMap[e.source].push(e.target);
+      });
+    }
 
-    // Position decisions in center
+    // 2. Position decisions in a central ring or grid
     const decisions = nodesByType['decision'] || [];
+    const decisionPositions = {};
+    
     decisions.forEach((node, i) => {
+      // Hexagon/Circle layout for core decisions
+      const angle = (i / decisions.length) * Math.PI * 2;
+      const coreRadius = decisions.length > 1 ? 300 : 0;
+      const dx = 600 + Math.cos(angle) * coreRadius;
+      const dy = 400 + Math.sin(angle) * coreRadius;
+      
+      decisionPositions[node.id] = { x: dx, y: dy };
+      
       flowNodes.push({
         id: node.id,
         type: 'custom',
-        position: {
-          x: 400 + (i % 3) * 280,
-          y: 60 + Math.floor(i / 3) * 200,
-        },
-        data: {
-          label: (node.data.decision || node.data.name || node.id).substring(0, 60),
-          nodeType: 'decision',
-        },
-      });
-    });
-    yOffset = Math.ceil(decisions.length / 3) * 200 + 60;
-
-    // Position people on the left
-    const people = nodesByType['person'] || [];
-    people.forEach((node, i) => {
-      flowNodes.push({
-        id: node.id,
-        type: 'custom',
-        position: { x: 50, y: 40 + i * 90 },
-        data: {
-          label: node.data.name || node.id,
-          nodeType: 'person',
-        },
+        position: { x: dx, y: dy },
+        data: { label: (node.data.decision || node.data.name || node.id).substring(0, 60), nodeType: 'decision' },
       });
     });
 
-    // Position topics on the right
-    const topics = nodesByType['topic'] || [];
-    topics.forEach((node, i) => {
-      flowNodes.push({
-        id: node.id,
-        type: 'custom',
-        position: { x: 900, y: 40 + i * 90 },
-        data: {
-          label: node.data.name || node.id,
-          nodeType: 'topic',
-        },
-      });
-    });
+    // 3. Orbit other nodes around their connected decisions
+    const placedNodes = new Set(decisions.map(d => d.id));
+    
+    // Function to place satellite nodes
+    const placeSatellites = (nodesList, type) => {
+      nodesList.forEach((node) => {
+        if (placedNodes.has(node.id)) return;
+        
+        // Find which decision it connects to
+        let parentId = null;
+        if (graphData.edges) {
+          const edge = graphData.edges.find(e => e.target === node.id || e.source === node.id);
+          if (edge) parentId = edge.source === node.id ? edge.target : edge.source;
+        }
 
-    // Position alternatives below
-    const alternatives = nodesByType['alternative'] || [];
-    alternatives.forEach((node, i) => {
-      flowNodes.push({
-        id: node.id,
-        type: 'custom',
-        position: {
-          x: 200 + (i % 4) * 220,
-          y: yOffset + 40 + Math.floor(i / 4) * 90,
-        },
-        data: {
-          label: (node.data.name || node.id).substring(0, 50),
-          nodeType: 'alternative',
-        },
+        let px, py;
+        if (parentId && decisionPositions[parentId]) {
+          // Orbit parent
+          const p = decisionPositions[parentId];
+          const siblings = childrenMap[parentId] || [];
+          const idx = siblings.indexOf(node.id);
+          const localAngle = (idx / Math.max(siblings.length, 1)) * Math.PI * 2;
+          // Offset distance based on type
+          const dist = type === 'person' ? 140 : type === 'alternative' ? 200 : 250;
+          px = p.x + Math.cos(localAngle) * dist;
+          py = p.y + Math.sin(localAngle) * dist;
+        } else {
+          // Random floating node if disconnected
+          px = Math.random() * 800;
+          py = Math.random() * 800;
+        }
+
+        flowNodes.push({
+          id: node.id,
+          type: 'custom',
+          position: { x: px, y: py },
+          data: { label: (node.data.name || node.id).substring(0, 50), nodeType: type },
+        });
+        placedNodes.add(node.id);
       });
-    });
+    };
+
+    placeSatellites(nodesByType['person'] || [], 'person');
+    placeSatellites(nodesByType['alternative'] || [], 'alternative');
+    placeSatellites(nodesByType['topic'] || [], 'topic');
 
     // Transform edges
     const nodeIdSet = new Set(flowNodes.map((n) => n.id));
@@ -143,17 +166,20 @@ export default function GraphVisualization({ graphData }) {
         id: edge.id,
         source: edge.source,
         target: edge.target,
-        label: edge.label || edge.type,
-        type: 'default',
-        animated: edge.type === 'participated_in',
+        label: edge.label || edge.type.replace('_', ' '),
+        type: 'bezier',
+        animated: true,
         style: {
           stroke: edge.type === 'participated_in' ? '#06b6d4' :
                   edge.type === 'about' ? '#10b981' :
-                  edge.type === 'rejected_alternative' ? '#f59e0b' : '#7c3aed',
-          strokeWidth: 1.5,
+                  edge.type === 'rejected_alternative' ? '#f59e0b' : '#c4b5fd',
+          strokeWidth: 2.5,
+          opacity: 0.7,
         },
-        labelStyle: { fill: '#9ca3af', fontSize: 10 },
-        labelBgStyle: { fill: '#0f0f1a', fillOpacity: 0.8 },
+        labelStyle: { fill: '#e2e8f0', fontSize: 9, fontWeight: 'bold' },
+        labelBgStyle: { fill: '#12121a', fillOpacity: 0.9, color: 'white' },
+        labelBgPadding: [6, 4],
+        labelBgBorderRadius: 8,
       }));
 
     return { flowNodes, flowEdges };
