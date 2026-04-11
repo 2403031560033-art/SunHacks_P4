@@ -34,8 +34,8 @@ export default function StatsCard({ icon: Icon, label, value, trend, color = 'pu
     >
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-1 shadow-sm">{label}</p>
-          <p className="text-3xl font-extrabold text-white tracking-tight">{value}</p>
+          <p className="text-xs text-slate-500 font-semibold uppercase tracking-widest mb-1 shadow-sm">{label}</p>
+          <p className="text-3xl font-extrabold text-slate-900 tracking-tight">{value}</p>
           {trend && (
             <p className="text-[11px] text-accent-emerald mt-1 font-medium">{trend}</p>
           )}

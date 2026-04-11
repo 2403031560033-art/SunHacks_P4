@@ -66,10 +66,10 @@ export default function FileUpload({ onUploadComplete }) {
         onClick={() => !uploading && fileInputRef.current?.click()}
         className={`relative border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-300 ${
           isDragging
-            ? 'border-accent-purple bg-accent-purple/10 scale-[1.02]'
+            ? 'border-blue-400 bg-blue-50 scale-[1.02]'
             : uploading
-              ? 'border-accent-teal/30 bg-dark-700/50'
-              : 'border-white/10 bg-dark-700/30 hover:border-accent-purple/40 hover:bg-dark-700/50'
+              ? 'border-blue-300 bg-slate-50'
+              : 'border-slate-200 bg-white/50 hover:border-blue-300 hover:bg-blue-50/50'
         }`}
       >
         <input
@@ -82,26 +82,26 @@ export default function FileUpload({ onUploadComplete }) {
 
         {uploading ? (
           <div className="space-y-4">
-            <Loader2 className="w-10 h-10 text-accent-teal mx-auto animate-spin" />
-            <p className="text-sm text-gray-300">Processing document...</p>
-            <div className="w-full max-w-xs mx-auto bg-dark-600 rounded-full h-2 overflow-hidden">
+            <Loader2 className="w-10 h-10 text-blue-500 mx-auto animate-spin" />
+            <p className="text-sm text-slate-600 font-medium">Processing document...</p>
+            <div className="w-full max-w-xs mx-auto bg-slate-200 rounded-full h-2 overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-accent-purple to-accent-teal rounded-full transition-all duration-500"
                 style={{ width: `${Math.max(progress, 10)}%` }}
               />
             </div>
-            <p className="text-xs text-gray-500">{progress}% uploaded</p>
+            <p className="text-xs text-slate-500">{progress}% uploaded</p>
           </div>
         ) : (
           <div className="space-y-3">
-            <div className="w-14 h-14 rounded-2xl bg-accent-purple/10 border border-accent-purple/20 flex items-center justify-center mx-auto">
-              <Upload className="w-6 h-6 text-accent-purple-light" />
+            <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center mx-auto shadow-sm">
+              <Upload className="w-6 h-6 text-blue-500" />
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-200">
-                Drop files here or <span className="text-accent-purple-light">browse</span>
+              <p className="text-sm font-semibold text-slate-700">
+                Drop files here or <span className="text-blue-600 cursor-pointer hover:underline">browse</span>
               </p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-slate-500 mt-1 font-medium">
                 Supports: Slack JSON, Emails (.txt), PDFs, Meeting Notes
               </p>
             </div>
@@ -118,17 +118,17 @@ export default function FileUpload({ onUploadComplete }) {
               <div>
                 <p className="text-sm font-medium text-accent-emerald">{result.message}</p>
                 <div className="flex gap-4 mt-2">
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-slate-500 font-medium">
                     <FileText className="w-3 h-3 inline mr-1" />
                     {result.chunks_created} chunks
                   </span>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-slate-500 font-medium">
                     📋 {result.decisions_found} decisions found
                   </span>
                 </div>
               </div>
             </div>
-            <button onClick={reset} className="text-gray-500 hover:text-gray-300 transition-colors">
+            <button onClick={reset} className="text-slate-400 hover:text-slate-600 transition-colors">
               <X className="w-4 h-4" />
             </button>
           </div>
