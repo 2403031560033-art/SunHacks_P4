@@ -27,28 +27,28 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       {/* Ambient gradient blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-accent-purple/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-accent-teal/8 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-blue-400/20 rounded-full blur-[120px] mix-blend-multiply" />
+        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-sky-200/40 rounded-full blur-[100px] mix-blend-multiply" />
       </div>
 
       <div className="w-full max-w-md relative">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-purple to-accent-teal mb-4 pulse-glow">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-sky-400 mb-4 pulse-glow shadow-md shadow-blue-500/20">
             <Brain className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-white">OrgMemory</h1>
-          <p className="text-gray-500 mt-1 text-sm">Organizational Memory & Reasoning Engine</p>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">OrgMemory</h1>
+          <p className="text-slate-500 mt-1 text-sm font-medium">Organizational Memory & Reasoning Engine</p>
         </div>
 
         {/* Card */}
-        <div className="glass-card p-8">
+        <div className="bg-white/80 backdrop-blur-xl border border-slate-200 rounded-2xl p-8 shadow-sm">
           <div className="mb-6">
-            <h2 className="text-xl font-semibold text-white">Welcome back</h2>
-            <p className="text-gray-500 text-sm mt-1">Sign in to access your organizational memory</p>
+            <h2 className="text-xl font-bold text-slate-900 tracking-tight">Welcome back</h2>
+            <p className="text-slate-500 text-sm mt-1 font-medium">Sign in to access your organizational memory</p>
           </div>
 
           {error && (
@@ -61,9 +61,9 @@ export default function Login() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email */}
             <div>
-              <label className="block text-xs font-medium text-gray-400 mb-1.5">Email address</label>
+              <label className="block text-xs font-bold text-slate-600 mb-1.5 uppercase tracking-wider">Email address</label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   id="login-email"
                   type="email"
@@ -72,16 +72,16 @@ export default function Login() {
                   placeholder="you@company.com"
                   required
                   autoComplete="email"
-                  className="w-full pl-10 pr-4 py-3 bg-dark-700/80 border border-white/8 rounded-xl text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-accent-purple/50 focus:ring-2 focus:ring-accent-purple/10 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 font-medium focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all shadow-sm"
                 />
               </div>
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-xs font-medium text-gray-400 mb-1.5">Password</label>
+              <label className="block text-xs font-bold text-slate-600 mb-1.5 uppercase tracking-wider">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   id="login-password"
                   type={showPassword ? 'text' : 'password'}
@@ -90,12 +90,12 @@ export default function Login() {
                   placeholder="••••••••"
                   required
                   autoComplete="current-password"
-                  className="w-full pl-10 pr-11 py-3 bg-dark-700/80 border border-white/8 rounded-xl text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-accent-purple/50 focus:ring-2 focus:ring-accent-purple/10 transition-all"
+                  className="w-full pl-10 pr-11 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 font-medium focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all shadow-sm"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -107,7 +107,7 @@ export default function Login() {
               id="login-submit"
               type="submit"
               disabled={loading}
-              className="w-full py-3 mt-2 rounded-xl bg-gradient-to-r from-accent-purple to-accent-purple-light text-white font-semibold text-sm hover:shadow-lg hover:shadow-accent-purple-glow transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 flex items-center justify-center gap-2"
+              className="w-full py-3 mt-2 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold text-sm shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -123,16 +123,16 @@ export default function Login() {
             </button>
           </form>
 
-          <div className="mt-6 pt-5 border-t border-white/5 text-center text-sm text-gray-500">
+          <div className="mt-6 pt-5 border-t border-slate-200 text-center text-sm font-medium text-slate-500">
             Don't have an account?{' '}
-            <Link to="/register" className="text-accent-purple-light font-medium hover:text-accent-purple transition-colors">
+            <Link to="/register" className="text-blue-600 font-bold hover:text-blue-800 transition-colors">
               Create one free
             </Link>
           </div>
         </div>
 
         {/* Footer tagline */}
-        <p className="text-center text-xs text-gray-700 mt-6">
+        <p className="text-center text-xs text-slate-400 mt-6 font-medium">
           🔒 Your data is encrypted and private
         </p>
       </div>

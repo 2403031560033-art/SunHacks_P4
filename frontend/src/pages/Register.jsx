@@ -51,28 +51,28 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       {/* Ambient gradient blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-accent-teal/8 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-accent-purple/10 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-400/20 rounded-full blur-[120px] mix-blend-multiply" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-sky-200/40 rounded-full blur-[100px] mix-blend-multiply" />
       </div>
 
       <div className="w-full max-w-md relative">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-purple to-accent-teal mb-4 pulse-glow">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-sky-400 mb-4 pulse-glow shadow-md shadow-blue-500/20">
             <Brain className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-white">OrgMemory</h1>
-          <p className="text-gray-500 mt-1 text-sm">Your AI-powered organizational memory</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">OrgMemory</h1>
+          <p className="text-slate-500 font-medium mt-1 text-sm">Your AI-powered organizational memory</p>
         </div>
 
         {/* Card */}
-        <div className="glass-card p-8">
+        <div className="bg-white/80 backdrop-blur-xl border border-slate-200 rounded-2xl p-8 shadow-sm">
           <div className="mb-6">
-            <h2 className="text-xl font-semibold text-white">Create your account</h2>
-            <p className="text-gray-500 text-sm mt-1">Start capturing your organization's decisions</p>
+            <h2 className="text-xl font-bold tracking-tight text-slate-900">Create your account</h2>
+            <p className="text-slate-500 font-medium text-sm mt-1">Start capturing your organization's decisions</p>
           </div>
 
           {error && (
@@ -85,9 +85,9 @@ export default function Register() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name */}
             <div>
-              <label className="block text-xs font-medium text-gray-400 mb-1.5">Full name</label>
+              <label className="block text-xs font-bold text-slate-600 mb-1.5 uppercase tracking-wider">Full name</label>
               <div className="relative">
-                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   id="register-name"
                   type="text"
@@ -96,16 +96,16 @@ export default function Register() {
                   placeholder="Jane Smith"
                   required
                   autoComplete="name"
-                  className="w-full pl-10 pr-4 py-3 bg-dark-700/80 border border-white/8 rounded-xl text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-accent-purple/50 focus:ring-2 focus:ring-accent-purple/10 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-400 font-medium focus:ring-2 focus:ring-blue-100 transition-all shadow-sm"
                 />
               </div>
             </div>
 
             {/* Email */}
             <div>
-              <label className="block text-xs font-medium text-gray-400 mb-1.5">Work email</label>
+              <label className="block text-xs font-bold text-slate-600 mb-1.5 uppercase tracking-wider">Work email</label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   id="register-email"
                   type="email"
@@ -114,16 +114,16 @@ export default function Register() {
                   placeholder="you@company.com"
                   required
                   autoComplete="email"
-                  className="w-full pl-10 pr-4 py-3 bg-dark-700/80 border border-white/8 rounded-xl text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-accent-purple/50 focus:ring-2 focus:ring-accent-purple/10 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-400 font-medium focus:ring-2 focus:ring-blue-100 transition-all shadow-sm"
                 />
               </div>
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-xs font-medium text-gray-400 mb-1.5">Password</label>
+              <label className="block text-xs font-bold text-slate-600 mb-1.5 uppercase tracking-wider">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   id="register-password"
                   type={showPassword ? 'text' : 'password'}
@@ -132,12 +132,12 @@ export default function Register() {
                   placeholder="Min. 6 characters"
                   required
                   autoComplete="new-password"
-                  className="w-full pl-10 pr-11 py-3 bg-dark-700/80 border border-white/8 rounded-xl text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-accent-purple/50 focus:ring-2 focus:ring-accent-purple/10 transition-all"
+                  className="w-full pl-10 pr-11 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 font-medium placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all shadow-sm"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -150,7 +150,7 @@ export default function Register() {
               id="register-submit"
               type="submit"
               disabled={loading}
-              className="w-full py-3 mt-2 rounded-xl bg-gradient-to-r from-accent-purple to-accent-teal text-white font-semibold text-sm hover:shadow-lg hover:shadow-accent-purple-glow transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 flex items-center justify-center gap-2"
+              className="w-full py-3 mt-2 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold text-sm shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -167,31 +167,31 @@ export default function Register() {
           </form>
 
           {/* Features teaser */}
-          <div className="mt-5 pt-5 border-t border-white/5">
-            <p className="text-[11px] text-gray-600 text-center mb-3">What you get with OrgMemory</p>
+          <div className="mt-5 pt-5 border-t border-slate-200">
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider text-center mb-3">What you get with OrgMemory</p>
             <div className="grid grid-cols-3 gap-2 text-center">
               {[
                 { icon: '🧠', label: 'AI Memory' },
                 { icon: '🔍', label: 'Smart Search' },
                 { icon: '🔒', label: 'Private Data' },
               ].map((f) => (
-                <div key={f.label} className="px-2 py-2 rounded-lg bg-dark-700/40">
+                <div key={f.label} className="px-2 py-2 rounded-lg bg-slate-50 border border-slate-200 shadow-sm">
                   <p className="text-lg mb-0.5">{f.icon}</p>
-                  <p className="text-[10px] text-gray-500">{f.label}</p>
+                  <p className="text-[10px] font-medium text-slate-500">{f.label}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mt-5 text-center text-sm text-gray-500">
+          <div className="mt-5 text-center text-sm font-medium text-slate-500">
             Already have an account?{' '}
-            <Link to="/login" className="text-accent-purple-light font-medium hover:text-accent-purple transition-colors">
+            <Link to="/login" className="text-blue-600 font-bold hover:text-blue-800 transition-colors">
               Sign in
             </Link>
           </div>
         </div>
 
-        <p className="text-center text-xs text-gray-700 mt-6">
+        <p className="text-center text-xs font-medium text-slate-400 mt-6">
           🔒 Your data is encrypted and private
         </p>
       </div>

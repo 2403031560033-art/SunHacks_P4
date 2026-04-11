@@ -42,17 +42,17 @@ export default function DecisionHistory() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-accent-amber/15 flex items-center justify-center">
-            <ClipboardList className="w-5 h-5 text-accent-amber" />
+          <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center shadow-sm">
+            <ClipboardList className="w-5 h-5 text-blue-600" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white">Decision History</h1>
-            <p className="text-xs text-gray-500">{decisions.length} decision{decisions.length !== 1 ? 's' : ''} extracted</p>
+            <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">Decision History</h1>
+            <p className="text-xs text-slate-500 font-medium">{decisions.length} decision{decisions.length !== 1 ? 's' : ''} extracted</p>
           </div>
         </div>
         <button
           onClick={fetchDecisions}
-          className="p-2.5 rounded-xl bg-dark-700/50 border border-white/5 text-gray-400 hover:text-white transition-all"
+          className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all shadow-sm"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
         </button>
@@ -61,21 +61,21 @@ export default function DecisionHistory() {
       {/* Search & Filter */}
       <div className="flex gap-3">
         <div className="flex-1 relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search decisions..."
-            className="w-full pl-10 pr-4 py-2.5 bg-dark-700/80 border border-white/5 rounded-xl text-sm text-gray-300 placeholder-gray-600 focus:outline-none focus:border-accent-purple/40 transition-all"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-100 transition-all shadow-sm"
           />
         </div>
         <div className="relative">
-          <Filter className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+          <Filter className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="pl-10 pr-8 py-2.5 bg-dark-700/80 border border-white/5 rounded-xl text-sm text-gray-300 focus:outline-none focus:border-accent-purple/40 appearance-none cursor-pointer"
+            className="pl-10 pr-8 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-100 appearance-none cursor-pointer shadow-sm"
           >
             <option value="confidence">Sort by Confidence</option>
             <option value="recent">Sort by Recent</option>
@@ -89,12 +89,12 @@ export default function DecisionHistory() {
           <Loader2 className="w-6 h-6 text-accent-purple animate-spin" />
         </div>
       ) : filteredDecisions.length === 0 ? (
-        <div className="text-center py-20">
-          <ClipboardList className="w-12 h-12 text-gray-700 mx-auto mb-3" />
-          <p className="text-sm text-gray-500">
+        <div className="text-center py-20 bg-white border border-slate-200 rounded-2xl shadow-sm">
+          <ClipboardList className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+          <p className="text-sm font-medium text-slate-600">
             {searchQuery ? 'No decisions match your search' : 'No decisions extracted yet'}
           </p>
-          <p className="text-xs text-gray-600 mt-1">
+          <p className="text-xs text-slate-400 mt-1">
             {searchQuery ? 'Try a different search term' : 'Upload documents to extract decisions'}
           </p>
         </div>

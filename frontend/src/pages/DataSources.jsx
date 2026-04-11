@@ -11,10 +11,10 @@ const FILE_TYPE_ICONS = {
 };
 
 const FILE_TYPE_COLORS = {
-  slack: 'text-accent-purple-light bg-accent-purple/15',
-  email: 'text-accent-teal bg-accent-teal/15',
-  pdf: 'text-accent-rose bg-accent-rose/15',
-  text: 'text-accent-amber bg-accent-amber/15',
+  slack: 'text-indigo-600 bg-indigo-50 border border-indigo-100',
+  email: 'text-sky-600 bg-sky-50 border border-sky-100',
+  pdf: 'text-rose-600 bg-rose-50 border border-rose-100',
+  text: 'text-amber-600 bg-amber-50 border border-amber-100',
 };
 
 export default function DataSources() {
@@ -57,17 +57,17 @@ export default function DataSources() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-accent-emerald/15 flex items-center justify-center">
-            <Database className="w-5 h-5 text-accent-emerald" />
+          <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center shadow-sm">
+            <Database className="w-5 h-5 text-blue-600" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white">Data Sources</h1>
-            <p className="text-xs text-gray-500">{documents.length} document{documents.length !== 1 ? 's' : ''} ingested</p>
+            <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">Data Sources</h1>
+            <p className="text-xs text-slate-500 font-medium">{documents.length} document{documents.length !== 1 ? 's' : ''} ingested</p>
           </div>
         </div>
         <button
           onClick={fetchDocuments}
-          className="p-2.5 rounded-xl bg-dark-700/50 border border-white/5 text-gray-400 hover:text-white transition-all"
+          className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all shadow-sm"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
         </button>
@@ -75,7 +75,7 @@ export default function DataSources() {
 
       {/* Upload Section */}
       <div className="glass-card p-6">
-        <h2 className="text-sm font-semibold text-white mb-4">Upload New Document</h2>
+        <h2 className="text-sm font-semibold text-slate-900 mb-4 tracking-tight">Upload New Document</h2>
         <FileUpload onUploadComplete={fetchDocuments} />
       </div>
 
@@ -86,16 +86,16 @@ export default function DataSources() {
             <Loader2 className="w-6 h-6 text-accent-purple animate-spin" />
           </div>
         ) : documents.length === 0 ? (
-          <div className="text-center py-20">
-            <Database className="w-12 h-12 text-gray-700 mx-auto mb-3" />
-            <p className="text-sm text-gray-500">No documents uploaded yet</p>
-            <p className="text-xs text-gray-600 mt-1">Upload files above to get started</p>
+          <div className="text-center py-20 bg-white border border-slate-200 rounded-2xl shadow-sm">
+            <Database className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+            <p className="text-sm text-slate-600 font-medium">No documents uploaded yet</p>
+            <p className="text-xs text-slate-400 mt-1">Upload files above to get started</p>
           </div>
         ) : (
           documents.map((doc, i) => (
             <div
               key={doc.id}
-              className="glass-card p-4 flex items-center gap-4 fade-in-up group"
+              className="px-5 py-4 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center gap-4 fade-in-up group hover:shadow-md hover:border-blue-200 transition-all"
               style={{ animationDelay: `${i * 60}ms` }}
             >
               {/* Icon */}
@@ -105,17 +105,17 @@ export default function DataSources() {
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-white truncate">{doc.filename}</p>
+                <p className="text-sm font-semibold text-slate-800 truncate">{doc.filename}</p>
                 <div className="flex items-center gap-4 mt-1">
-                  <span className="text-[11px] text-gray-500 flex items-center gap-1">
+                  <span className="text-[11px] font-medium text-slate-500 flex items-center gap-1">
                     <Clock className="w-3 h-3" />
                     {formatDate(doc.upload_time)}
                   </span>
-                  <span className="text-[11px] text-gray-500 flex items-center gap-1">
+                  <span className="text-[11px] font-medium text-slate-500 flex items-center gap-1">
                     <Hash className="w-3 h-3" />
                     {doc.chunk_count} chunks
                   </span>
-                  <span className="text-[11px] text-gray-500 flex items-center gap-1">
+                  <span className="text-[11px] font-medium text-slate-500 flex items-center gap-1">
                     <FileText className="w-3 h-3" />
                     {doc.decision_count} decisions
                   </span>
@@ -123,19 +123,19 @@ export default function DataSources() {
               </div>
 
               {/* Type badge */}
-              <span className={`px-2.5 py-1 rounded-lg text-[11px] font-medium uppercase tracking-wider ${FILE_TYPE_COLORS[doc.file_type] || 'bg-dark-600 text-gray-400'}`}>
+              <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${FILE_TYPE_COLORS[doc.file_type] || 'bg-slate-100 text-slate-500'}`}>
                 {doc.file_type}
               </span>
 
               {/* Status */}
-              <span className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-accent-emerald/10 text-accent-emerald">
+              <span className="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 uppercase tracking-wider">
                 {doc.status}
               </span>
 
               {/* Delete */}
               <button
                 onClick={() => handleDelete(doc.id)}
-                className="p-2 rounded-lg text-gray-600 hover:text-accent-rose hover:bg-accent-rose/10 transition-all opacity-0 group-hover:opacity-100"
+                className="p-2 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border-red-200 border border-transparent transition-all opacity-0 group-hover:opacity-100"
               >
                 <Trash2 className="w-4 h-4" />
               </button>

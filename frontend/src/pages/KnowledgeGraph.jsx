@@ -33,35 +33,35 @@ export default function KnowledgeGraph() {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-accent-teal/15 flex items-center justify-center">
-            <GitFork className="w-5 h-5 text-accent-teal" />
+          <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center shadow-sm">
+            <GitFork className="w-5 h-5 text-blue-600" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white">Knowledge Graph</h1>
-            <p className="text-xs text-gray-500">
+            <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">Knowledge Graph</h1>
+            <p className="text-xs text-slate-500 font-medium">
               Interactive visualization of decisions, people, and topics
             </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
           {/* Legend */}
-          <div className="hidden md:flex items-center gap-4 px-4 py-2 rounded-xl bg-dark-700/50 border border-white/5">
-            <span className="flex items-center gap-1.5 text-[11px]">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent-purple" /> Decisions
+          <div className="hidden md:flex items-center gap-4 px-4 py-2 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <span className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-600">
+              <span className="w-2.5 h-2.5 rounded-full bg-indigo-500" /> Decisions
             </span>
-            <span className="flex items-center gap-1.5 text-[11px]">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent-teal" /> People
+            <span className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-600">
+              <span className="w-2.5 h-2.5 rounded-full bg-sky-500" /> People
             </span>
-            <span className="flex items-center gap-1.5 text-[11px]">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent-emerald" /> Topics
+            <span className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-600">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Topics
             </span>
-            <span className="flex items-center gap-1.5 text-[11px]">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent-amber" /> Alternatives
+            <span className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-600">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-500" /> Alternatives
             </span>
           </div>
           <button
             onClick={fetchGraph}
-            className="p-2.5 rounded-xl bg-dark-700/50 border border-white/5 text-gray-400 hover:text-white hover:border-white/10 transition-all"
+            className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all shadow-sm"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
@@ -71,14 +71,14 @@ export default function KnowledgeGraph() {
       {/* Stats bar */}
       <div className="grid grid-cols-4 gap-3 mb-4">
         {[
-          { label: 'Nodes', value: nodeCount, color: 'text-accent-purple-light' },
-          { label: 'Edges', value: edgeCount, color: 'text-accent-teal' },
-          { label: 'Decisions', value: decisionCount, color: 'text-accent-emerald' },
-          { label: 'People', value: personCount, color: 'text-accent-amber' },
+          { label: 'Nodes', value: nodeCount, color: 'text-indigo-600' },
+          { label: 'Edges', value: edgeCount, color: 'text-sky-600' },
+          { label: 'Decisions', value: decisionCount, color: 'text-emerald-600' },
+          { label: 'People', value: personCount, color: 'text-amber-600' },
         ].map((s) => (
-          <div key={s.label} className="px-4 py-2.5 rounded-xl bg-dark-700/40 border border-white/5 text-center">
+          <div key={s.label} className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 shadow-sm text-center">
             <p className={`text-lg font-bold ${s.color}`}>{s.value}</p>
-            <p className="text-[10px] text-gray-500 uppercase tracking-wider">{s.label}</p>
+            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{s.label}</p>
           </div>
         ))}
       </div>

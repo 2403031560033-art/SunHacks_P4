@@ -87,18 +87,18 @@ export default function AskAI() {
       {/* Header */}
       <div className="flex items-center justify-between mb-4 fade-in-up">
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-purple/20 to-accent-teal/20 border border-accent-purple/20 flex items-center justify-center pulse-glow">
-            <Brain className="w-5 h-5 text-accent-purple-light" />
+          <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center pulse-glow shadow-sm shadow-blue-500/10">
+            <Brain className="w-5 h-5 text-blue-600" />
           </div>
           <div>
-            <h1 className="text-xl font-extrabold text-white tracking-tight">Chief Memory Officer</h1>
-            <p className="text-xs text-gray-400 font-medium tracking-wide">AI-Powered Organizational Query Engine</p>
+            <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">Chief Memory Officer</h1>
+            <p className="text-xs text-slate-500 font-medium tracking-wide">AI-Powered Organizational Query Engine</p>
           </div>
         </div>
         {messages.length > 0 && (
           <button
             onClick={clearChat}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-gray-400 hover:text-gray-200 hover:bg-dark-700/50 border border-white/5 transition-all"
+            className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-200 transition-all shadow-sm"
           >
             <Trash2 className="w-3.5 h-3.5" />
             Clear
@@ -111,11 +111,11 @@ export default function AskAI() {
         {messages.length === 0 ? (
           /* Empty State */
           <div className="flex flex-col items-center justify-center h-full text-center px-4 fade-in-up">
-            <div className="w-24 h-24 rounded-[2rem] bg-gradient-to-tr from-accent-purple/20 via-accent-teal/10 to-transparent border border-white/10 flex items-center justify-center mb-8 shadow-2xl shadow-accent-purple-glow pulse-glow">
-              <Sparkles className="w-10 h-10 text-accent-teal-light" />
+            <div className="w-24 h-24 rounded-[2rem] bg-blue-50 border border-blue-200 flex items-center justify-center mb-8 shadow-xl shadow-blue-500/10 pulse-glow">
+              <Sparkles className="w-10 h-10 text-blue-500" />
             </div>
-            <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-400 mb-3 tracking-tight">What would you like to uncover?</h2>
-            <p className="text-sm text-gray-400 mb-10 max-w-lg font-medium leading-relaxed">
+            <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-600 mb-3 tracking-tight">What would you like to uncover?</h2>
+            <p className="text-sm text-slate-500 mb-10 max-w-lg font-medium leading-relaxed">
               Ask about strategic decisions, missing alternatives, or team dynamics from your organizational documents.
               I will extract the answers with full explainability.
             </p>
@@ -124,10 +124,10 @@ export default function AskAI() {
                 <button
                   key={i}
                   onClick={() => handleSendMessage(q)}
-                  className={`text-left px-5 py-4 rounded-2xl glass-card backdrop-blur-xl text-sm font-medium text-gray-300 hover:text-white transition-all duration-300 flex items-center gap-3 fade-in-up hover:border-accent-teal/30 group`}
+                  className={`text-left px-5 py-4 rounded-2xl bg-white/70 backdrop-blur-xl border border-slate-200 text-sm font-semibold text-slate-700 hover:text-blue-700 transition-all duration-300 flex items-center gap-3 fade-in-up hover:border-blue-300 hover:bg-blue-50/50 group shadow-sm`}
                   style={{ animationDelay: `${(i + 1) * 75}ms` }}
                 >
-                  <span className="p-1.5 rounded-lg bg-dark-600/50 text-accent-teal group-hover:bg-accent-teal/20 group-hover:scale-110 transition-all">
+                  <span className="p-1.5 rounded-lg bg-blue-100 text-blue-600 group-hover:bg-blue-200 group-hover:scale-110 transition-all">
                     <Sparkles className="w-3.5 h-3.5" />
                   </span>
                   {q}
@@ -143,14 +143,14 @@ export default function AskAI() {
         {/* Typing indicator */}
         {loading && (
           <div className="flex gap-3 fade-in-up">
-            <div className="w-9 h-9 rounded-xl bg-dark-600 border border-white/10 flex items-center justify-center shrink-0">
-              <Loader2 className="w-4 h-4 text-accent-teal animate-spin" />
+            <div className="w-9 h-9 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center shrink-0">
+              <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />
             </div>
-            <div className="px-5 py-4 rounded-2xl rounded-tl-md bg-dark-700/80 border border-white/5">
+            <div className="px-5 py-4 rounded-2xl rounded-tl-md bg-white border border-slate-200 shadow-sm">
               <div className="flex gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-accent-purple typing-dot" />
-                <span className="w-2 h-2 rounded-full bg-accent-purple typing-dot" />
-                <span className="w-2 h-2 rounded-full bg-accent-purple typing-dot" />
+                <span className="w-2 h-2 rounded-full bg-blue-500 typing-dot" />
+                <span className="w-2 h-2 rounded-full bg-blue-500 typing-dot" />
+                <span className="w-2 h-2 rounded-full bg-blue-500 typing-dot" />
               </div>
             </div>
           </div>
@@ -160,8 +160,8 @@ export default function AskAI() {
       </div>
 
       {/* Floating Input Dock */}
-      <div className="absolute bottom-0 left-0 right-0 pt-6 pb-2 bg-gradient-to-t from-dark-900 via-dark-900/90 to-transparent">
-        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto backdrop-blur-3xl glass-card rounded-2xl border border-white/10 shadow-2xl p-1.5 flex gap-2 fade-in-up delay-300">
+      <div className="absolute bottom-0 left-0 right-0 pt-6 pb-2 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent">
+        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto bg-white/80 backdrop-blur-xl rounded-2xl border border-slate-200 shadow-lg p-1.5 flex gap-2 fade-in-up delay-300">
           <div className="flex-1 relative">
             <input
               ref={inputRef}
@@ -170,13 +170,13 @@ export default function AskAI() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask the Chief Memory Officer..."
               disabled={loading}
-              className="w-full px-5 py-3.5 bg-transparent border-none text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-0 disabled:opacity-50 font-medium"
+              className="w-full px-5 py-3.5 bg-transparent border-none text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-0 disabled:opacity-50 font-semibold"
             />
           </div>
           <button
             type="submit"
             disabled={loading || !input.trim()}
-            className="px-5 py-3.5 bg-gradient-to-br from-accent-purple to-accent-teal rounded-xl text-white font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed hover:scale-105 active:scale-95 flex items-center justify-center shrink-0"
+            className="px-5 py-3.5 bg-gradient-to-br from-blue-600 to-sky-500 rounded-xl text-white font-bold shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 transition-all disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed hover:scale-105 active:scale-95 flex items-center justify-center shrink-0"
           >
             <Send className="w-4 h-4 ml-0.5" />
           </button>
