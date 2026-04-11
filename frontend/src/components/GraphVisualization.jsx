@@ -13,28 +13,28 @@ import 'reactflow/dist/style.css';
 function CustomNode({ data }) {
   const typeStyles = {
     decision: {
-      bg: 'linear-gradient(135deg, #7c3aed22, #7c3aed11)',
-      border: '#7c3aed55',
+      bg: 'linear-gradient(135deg, #eef2ff, #ffffff)',
+      border: '#c7d2fe',
       icon: '📋',
-      textColor: '#c4b5fd',
+      textColor: '#312e81',
     },
     person: {
-      bg: 'linear-gradient(135deg, #06b6d422, #06b6d411)',
-      border: '#06b6d455',
+      bg: 'linear-gradient(135deg, #f0f9ff, #ffffff)',
+      border: '#bae6fd',
       icon: '👤',
-      textColor: '#67e8f9',
+      textColor: '#0c4a6e',
     },
     topic: {
-      bg: 'linear-gradient(135deg, #10b98122, #10b98111)',
-      border: '#10b98155',
+      bg: 'linear-gradient(135deg, #ecfdf5, #ffffff)',
+      border: '#a7f3d0',
       icon: '🏷️',
-      textColor: '#6ee7b7',
+      textColor: '#064e3b',
     },
     alternative: {
-      bg: 'linear-gradient(135deg, #f59e0b22, #f59e0b11)',
-      border: '#f59e0b55',
+      bg: 'linear-gradient(135deg, #fffbeb, #ffffff)',
+      border: '#fde68a',
       icon: '🔄',
-      textColor: '#fcd34d',
+      textColor: '#78350f',
     },
   };
 
@@ -46,18 +46,18 @@ function CustomNode({ data }) {
         background: style.bg,
         borderColor: style.border,
         color: style.textColor,
-        boxShadow: `0 4px 20px -2px ${style.border}`,
+        boxShadow: `0 4px 12px -2px rgba(0,0,0,0.05), inset 0 0 0 1px ${style.border}`,
       }}
-      className="px-4 py-3 rounded-2xl border backdrop-blur-md text-xs font-bold max-w-56 text-center transition-transform hover:scale-110"
+      className="px-4 py-3 rounded-2xl border text-xs font-bold max-w-64 text-center transition-transform hover:scale-105"
     >
-      <Handle type="target" position={Position.Top} className="w-2 h-2 !bg-white/50 !border-none" />
+      <Handle type="target" position={Position.Top} className="w-2 h-2 !bg-slate-300 !border-slate-400" />
       <div className="flex flex-col items-center gap-1.5">
-        <span className="text-xl bg-black/20 p-2 rounded-full leading-none shadow-inner border border-white/5">
+        <span className="text-xl bg-white/50 p-2 rounded-full leading-none shadow-sm border border-slate-200/50">
           {style.icon}
         </span>
         <span className="leading-snug tracking-wide">{data.label}</span>
       </div>
-      <Handle type="source" position={Position.Bottom} className="w-2 h-2 !bg-white/50 !border-none" />
+      <Handle type="source" position={Position.Bottom} className="w-2 h-2 !bg-slate-300 !border-slate-400" />
     </div>
   );
 }
@@ -98,7 +98,7 @@ export default function GraphVisualization({ graphData }) {
     decisions.forEach((node, i) => {
       // Hexagon/Circle layout for core decisions
       const angle = (i / decisions.length) * Math.PI * 2;
-      const coreRadius = decisions.length > 1 ? 300 : 0;
+      const coreRadius = decisions.length > 1 ? Math.max(300, decisions.length * 60) : 0;
       const dx = 600 + Math.cos(angle) * coreRadius;
       const dy = 400 + Math.sin(angle) * coreRadius;
       
@@ -134,8 +134,9 @@ export default function GraphVisualization({ graphData }) {
           const siblings = childrenMap[parentId] || [];
           const idx = siblings.indexOf(node.id);
           const localAngle = (idx / Math.max(siblings.length, 1)) * Math.PI * 2;
-          // Offset distance based on type
-          const dist = type === 'person' ? 140 : type === 'alternative' ? 200 : 250;
+          // Offset distance based on type to avoid overlaps
+          const distBase = type === 'person' ? 180 : type === 'alternative' ? 240 : 300;
+          const dist = distBase + (idx % 2 === 0 ? 0 : 50); // Staggering
           px = p.x + Math.cos(localAngle) * dist;
           py = p.y + Math.sin(localAngle) * dist;
         } else {
@@ -170,15 +171,15 @@ export default function GraphVisualization({ graphData }) {
         type: 'bezier',
         animated: true,
         style: {
-          stroke: edge.type === 'participated_in' ? '#06b6d4' :
-                  edge.type === 'about' ? '#10b981' :
-                  edge.type === 'rejected_alternative' ? '#f59e0b' : '#c4b5fd',
-          strokeWidth: 2.5,
-          opacity: 0.7,
+          stroke: edge.type === 'participated_in' ? '#38bdf8' :
+                  edge.type === 'about' ? '#34d399' :
+                  edge.type === 'rejected_alternative' ? '#fbbf24' : '#a78bfa',
+          strokeWidth: 2,
+          opacity: 0.5,
         },
-        labelStyle: { fill: '#e2e8f0', fontSize: 9, fontWeight: 'bold' },
-        labelBgStyle: { fill: '#12121a', fillOpacity: 0.9, color: 'white' },
-        labelBgPadding: [6, 4],
+        labelStyle: { fill: '#64748b', fontSize: 10, fontWeight: '700' },
+        labelBgStyle: { fill: '#ffffff', fillOpacity: 0.9, color: '#334155' },
+        labelBgPadding: [8, 4],
         labelBgBorderRadius: 8,
       }));
 
@@ -207,7 +208,7 @@ export default function GraphVisualization({ graphData }) {
   }
 
   return (
-    <div className="w-full h-full rounded-xl overflow-hidden" style={{ backgroundColor: '#0a0a14' }}>
+    <div className="w-full h-full rounded-xl overflow-hidden bg-slate-50 border border-slate-200">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -216,11 +217,11 @@ export default function GraphVisualization({ graphData }) {
         nodeTypes={nodeTypes}
         fitView
         fitViewOptions={{ padding: 0.2 }}
-        minZoom={0.3}
+        minZoom={0.2}
         maxZoom={2}
       >
-        <Background color="#1a1a2e" gap={20} size={1} />
-        <Controls className="!bg-dark-700 !border-white/10 !rounded-xl !shadow-xl" />
+        <Background color="#cbd5e1" gap={20} size={1} />
+        <Controls className="!bg-white !border-slate-200 !rounded-xl !shadow-sm [&>button]:!border-b-slate-100 [&>button:hover]:!bg-slate-50" />
       </ReactFlow>
     </div>
   );

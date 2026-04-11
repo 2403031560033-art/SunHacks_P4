@@ -1,0 +1,28 @@
+Subject: Q3 Product Roadmap Finalization - Mobile App vs AI Copilot
+Date: April 5, 2026
+From: Sarah Jenkins (VP Product)
+To: Engineering Leadership, Marketing
+
+Hi Team,
+
+We need to finalize the Q3 Roadmap today so engineering can start sprint planning. 
+
+Currently, we have two competing priorities for our engineering capacity:
+1. Building out the native iOS/Android Mobile App parity.
+2. Building an AI Copilot into the existing Web Dashboard.
+
+We don't have the dev hours to do both. 
+
+---
+Reply 1: Mark Torres (Engineering Manager)
+Honestly, building the mobile app right now feels like a mistake. Our analytics show 92% of our enterprise users interact with our platform exclusively on desktop during work hours. Pushing for mobile is a waste of React Native resources. 
+
+---
+Reply 2: Elena Rostova (Head of Sales)
+I disagree. Prospects constantly ask "do you have an app?" during demos. Not having one makes us look behind the times. But I acknowledge the AI Copilot is a massive selling point right now. 
+
+---
+Reply 3: Sarah Jenkins (VP Product)
+The overarching goal for 2026 is "Agentic Automation". A mobile app just gives users a smaller screen to look at dashboards. An AI Copilot actually fundamentally improves their productivity workflow. 
+
+Decision: We are officially deprioritizing the mobile application development indefinitely. All frontend and backend React/Python resources will be reallocated to shipping the web-based AI Copilot by the end of Q3. Elena, please draft a memo for sales on how to pivot conversations away from mobile towards AI productivity.
