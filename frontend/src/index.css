@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
-/* ── Tailwind v4 Custom Theme: Enterprise Obsidian Glass ── */
+/* ── Tailwind v4 Custom Theme: Agentic Cloud (Light Mode) ── */
 @theme {
-  /* Obsidian darks */
-  --color-dark-900: #060609;
-  --color-dark-800: #0a0a0f;
-  --color-dark-700: #12121a;
-  --color-dark-600: #1a1b26;
-  --color-dark-500: #24283b;
-  --color-dark-400: #414868;
+  /* Light theme mapping (overriding 'dark' names so components don't break) */
+  --color-dark-900: #f8fafc; /* Slate 50 - Base bg */
+  --color-dark-800: #ffffff; /* White - Panels */
+  --color-dark-700: #f1f5f9; /* Slate 100 - Secondary */
+  --color-dark-600: #e2e8f0; /* Slate 200 */
+  --color-dark-500: #cbd5e1; /* Slate 300 */
+  --color-dark-400: #94a3b8; /* Slate 400 */
 
-  /* Sophisticated Accents */
-  --color-accent-purple: #4f46e5; /* Indigo */
-  --color-accent-purple-light: #6366f1;
-  --color-accent-purple-glow: rgba(99, 102, 241, 0.4);
-  --color-accent-teal: #0ea5e9; /* Sky */
+  /* Agentic Blue Accents */
+  --color-accent-purple: #2563eb; /* Royal Blue */
+  --color-accent-purple-light: #3b82f6; /* Bright Blue */
+  --color-accent-purple-glow: rgba(59, 130, 246, 0.25);
+  --color-accent-teal: #0ea5e9; /* Sky Blue */
   --color-accent-teal-light: #38bdf8;
   --color-accent-emerald: #10b981;
   --color-accent-amber: #f59e0b;
@@ -42,8 +42,9 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background: radial-gradient(100% 100% at 50% 0%, rgba(99, 102, 241, 0.08) 0%, var(--color-dark-900) 100%);
-  color: #e2e8f0;
+  /* Light airy gradient */
+  background: radial-gradient(120% 100% at 50% 0%, #e0f2fe 0%, #f8fafc 100%);
+  color: #0f172a; /* Slate 900 base text */
   line-height: 1.6;
   min-height: 100vh;
 }
@@ -64,22 +65,22 @@ body {
   background: var(--color-accent-purple-light);
 }
 
-/* ── Premium Glass Card ── */
+/* ── Premium Glass Card (Light Mode) ── */
 .glass-card {
-  background: linear-gradient(180deg, rgba(26, 27, 38, 0.6) 0%, rgba(18, 18, 26, 0.4) 100%);
+  background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   /* Top border light reflection */
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid #ffffff;
   border-radius: 16px;
-  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.02);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 0 3px rgba(15, 23, 42, 0.02);
   transition: transform 0.4s var(--ease-spring), box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
 .glass-card:hover {
-  border-color: rgba(99, 102, 241, 0.15);
-  box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.6), 0 0 24px -4px rgba(99, 102, 241, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  border-color: rgba(37, 99, 235, 0.2);
+  box-shadow: 0 12px 30px -8px rgba(15, 23, 42, 0.1), 0 0 20px -4px rgba(37, 99, 235, 0.15);
   transform: translateY(-2px);
 }
 
@@ -93,7 +94,7 @@ body {
 
 /* ── Gradient Text ── */
 .gradient-text {
-  background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 100%);
+  background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -140,17 +141,17 @@ body {
 .typing-dot:nth-child(2) { animation-delay: 0.2s; }
 .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
-/* ── React Flow overrides (Premium) ── */
+/* ── React Flow overrides (Light Mode Premium) ── */
 .react-flow__node {
   border-radius: 12px !important;
   font-family: var(--font-sans) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+  box-shadow: 0 4px 12px rgba(15,23,42,0.1) !important;
 }
 .react-flow__edge-path {
-  stroke: #6366f1 !important;
+  stroke: #3b82f6 !important;
   stroke-width: 2 !important;
-  filter: drop-shadow(0 0 3px rgba(99, 102, 241, 0.4));
+  filter: drop-shadow(0 0 2px rgba(59, 130, 246, 0.3));
 }
 .react-flow__background pattern line {
-  stroke: #1a1b26 !important;
+  stroke: #e2e8f0 !important;
 }

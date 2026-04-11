@@ -41,10 +41,10 @@ function PublicRoute({ children }) {
 // ── App shell for authenticated users ─────────────────────────
 function AppShell() {
   return (
-    <div className="flex h-screen bg-dark-900 text-gray-200 overflow-hidden relative">
+    <div className="flex h-screen bg-slate-50 text-slate-800 overflow-hidden relative">
       {/* 🌟 Premium Ambient Lighting (For Demo Impact) */}
-      <div className="fixed top-[-20%] right-[-10%] w-[800px] h-[800px] bg-accent-purple/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />
-      <div className="fixed bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-accent-teal/10 rounded-full blur-[100px] pointer-events-none mix-blend-screen" />
+      <div className="fixed top-[-20%] right-[-10%] w-[800px] h-[800px] bg-blue-400/20 rounded-full blur-[120px] pointer-events-none mix-blend-multiply" />
+      <div className="fixed bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-sky-200/40 rounded-full blur-[100px] pointer-events-none mix-blend-multiply" />
 
       <Sidebar />
       <div className="relative z-10 flex-1 flex flex-col overflow-hidden">

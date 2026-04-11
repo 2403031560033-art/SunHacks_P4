@@ -57,8 +57,8 @@ export default function Dashboard() {
       {/* Page Header */}
       <div className="flex items-center justify-between fade-in-up">
         <div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight">Dashboard</h1>
-          <p className="text-sm text-gray-400 mt-1 font-medium">Organizational Memory & Reasoning Engine</p>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Dashboard</h1>
+          <p className="text-sm text-slate-500 mt-1 font-medium">Organizational Memory & Reasoning Engine</p>
         </div>
         <button
           onClick={() => navigate('/ask')}
@@ -86,8 +86,8 @@ export default function Dashboard() {
               <Upload className="w-5 h-5 text-accent-purple-light" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white tracking-tight">Ingest Intelligence</h2>
-              <p className="text-xs text-gray-400 font-medium">Upload Slack JSONs, emails, or strategic meeting notes.</p>
+              <h2 className="text-lg font-bold text-slate-900 tracking-tight">Ingest Intelligence</h2>
+              <p className="text-xs text-slate-500 font-medium">Upload Slack JSONs, emails, or strategic meeting notes.</p>
             </div>
           </div>
           <FileUpload onUploadComplete={fetchData} />
@@ -96,7 +96,7 @@ export default function Dashboard() {
         {/* Quick Actions */}
         <div className="space-y-4">
           <div className="glass-card p-5">
-            <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
               <Zap className="w-4 h-4 text-accent-amber" />
               Quick Actions
             </h3>
@@ -109,11 +109,11 @@ export default function Dashboard() {
                 <button
                   key={action.path}
                   onClick={() => navigate(action.path)}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-dark-700/50 border border-white/5 hover:border-white/10 hover:bg-dark-600/50 transition-all group"
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/50 border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 transition-all group shadow-sm"
                 >
                   <action.icon className={`w-4 h-4 ${action.color}`} />
-                  <span className="text-sm text-gray-300 group-hover:text-white transition-colors">{action.label}</span>
-                  <ArrowRight className="w-3 h-3 text-gray-600 ml-auto group-hover:text-gray-400 group-hover:translate-x-1 transition-all" />
+                  <span className="text-sm font-medium text-slate-700 group-hover:text-blue-600 transition-colors">{action.label}</span>
+                  <ArrowRight className="w-3 h-3 text-slate-400 ml-auto group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
                 </button>
               ))}
               
@@ -133,7 +133,7 @@ export default function Dashboard() {
 
           {/* How It Works */}
           <div className="glass-card p-5">
-            <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-accent-purple-light" />
               How It Works
             </h3>
@@ -144,10 +144,10 @@ export default function Dashboard() {
                 { step: '3', text: 'Query in natural language with full explainability' },
               ].map((item) => (
                 <div key={item.step} className="flex items-start gap-3">
-                  <span className="w-6 h-6 rounded-lg bg-accent-purple/15 text-accent-purple-light text-xs font-bold flex items-center justify-center shrink-0">
+                  <span className="w-6 h-6 rounded-lg bg-accent-purple/15 text-accent-purple text-xs font-bold flex items-center justify-center shrink-0">
                     {item.step}
                   </span>
-                  <p className="text-xs text-gray-400 leading-relaxed">{item.text}</p>
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed">{item.text}</p>
                 </div>
               ))}
             </div>
@@ -161,12 +161,12 @@ export default function Dashboard() {
             </h3>
             {stats.blind_spots && stats.blind_spots.length > 0 ? (
               <div className="space-y-3">
-                <p className="text-xs text-gray-400 mb-2">
-                  <span className="text-white font-medium">{stats.blind_spots.length} decisions</span> flagged for high risk:
+                <p className="text-xs text-slate-600 mb-2">
+                  <span className="text-slate-900 font-bold">{stats.blind_spots.length} decisions</span> flagged for high risk:
                 </p>
                 {stats.blind_spots.slice(0, 3).map((bs, i) => (
-                  <div key={i} className="p-3 rounded-lg bg-dark-700/80 border border-accent-amber/20">
-                    <p className="text-xs font-medium text-gray-200 line-clamp-2">{bs.decision}</p>
+                  <div key={i} className="p-3 rounded-lg bg-white/80 border border-accent-amber/20 shadow-sm">
+                    <p className="text-xs font-semibold text-slate-800 line-clamp-2">{bs.decision}</p>
                     <div className="mt-2 flex flex-wrap gap-1">
                       {bs.risk_factors.map((rf, idx) => (
                          <span key={idx} className="px-1.5 py-0.5 rounded bg-accent-amber/10 text-accent-amber text-[10px] font-medium border border-accent-amber/20">
@@ -188,7 +188,7 @@ export default function Dashboard() {
       {recentDecisions.length > 0 && (
         <div className="glass-card p-6 fade-in-up delay-300">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base font-semibold text-white flex items-center gap-2">
+            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
               <ClipboardList className="w-4 h-4 text-accent-teal" />
               Recent Decisions
             </h2>
@@ -201,13 +201,13 @@ export default function Dashboard() {
           </div>
           <div className="space-y-3">
             {recentDecisions.map((d, i) => (
-              <div key={i} className="p-4 rounded-xl bg-dark-700/40 border border-white/5 hover:border-accent-purple/20 transition-all">
-                <p className="text-sm font-medium text-gray-200">{d.decision}</p>
+              <div key={i} className="p-4 rounded-xl bg-white/60 border border-slate-200 hover:border-blue-300 transition-all shadow-sm">
+                <p className="text-sm font-semibold text-slate-800">{d.decision}</p>
                 <div className="flex items-center gap-4 mt-2">
-                  <span className="text-[11px] text-gray-500">
+                  <span className="text-[11px] font-medium text-slate-500">
                     📎 {d.source_document || 'Unknown source'}
                   </span>
-                  <span className="text-[11px] text-gray-500">
+                  <span className="text-[11px] font-medium text-slate-500">
                     🎯 {Math.round((d.confidence_score || 0) * 100)}% confidence
                   </span>
                 </div>
