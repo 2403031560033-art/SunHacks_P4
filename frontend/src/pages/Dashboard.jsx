@@ -55,7 +55,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between fade-in-up">
         <div>
           <h1 className="text-3xl font-extrabold text-white tracking-tight">Dashboard</h1>
           <p className="text-sm text-gray-400 mt-1 font-medium">Organizational Memory & Reasoning Engine</p>
@@ -70,7 +70,7 @@ export default function Dashboard() {
       </div>
 
       {/* Bento Grid: Overview Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 fade-in-up delay-100">
         <StatsCard icon={FileText} label="Documents" value={stats.documents || 0} color="purple" trend={stats.documents > 0 ? 'Active' : null} />
         <StatsCard icon={ClipboardList} label="Decisions" value={stats.decisions || 0} color="teal" trend={stats.decisions > 0 ? `${stats.graph_edges || 0} relationships` : null} />
         <StatsCard icon={Users} label="Participants" value={stats.participants || 0} color="emerald" />
@@ -78,7 +78,7 @@ export default function Dashboard() {
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 fade-in-up delay-200">
         {/* Upload Section (Bento Large Block) */}
         <div className="lg:col-span-2 glass-card p-8 interactive-element">
           <div className="flex items-center gap-3 mb-6">
@@ -186,7 +186,7 @@ export default function Dashboard() {
 
       {/* Recent Decisions */}
       {recentDecisions.length > 0 && (
-        <div className="glass-card p-6">
+        <div className="glass-card p-6 fade-in-up delay-300">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-base font-semibold text-white flex items-center gap-2">
               <ClipboardList className="w-4 h-4 text-accent-teal" />
